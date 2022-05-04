@@ -1,5 +1,10 @@
 #!/usr/bin/env zx
 
+import { folders } from "./lib/folders.mjs";
+import { generateScript } from "./lib/generateScript.mjs";
+import { parseSetup } from "./lib/parseSetup.mjs";
+import { parseSteps } from "./lib/parseSteps.mjs";
+
 // This is a simple utility to help you create setups of projects
 await $`clear`;
 
@@ -10,19 +15,25 @@ PJS - Project Setup Utility
 | for you to work on.                                   |
 ---------------------------------------------------------
 | ${chalk.yellow("Usage:")}                                                |
-| pjs ${chalk.green.bold("<slug> <project-name>")}                             |
+| pjs ${chalk.green.bold(
+  "<alias> <project-name>"
+)}                             |
 ---------------------------------------------------------
 `);
 
-const userConfigFolder = path.join(process.env.HOME, ".config", "pjs");
-const userSetupsFolder = path.join(
-  process.env.HOME,
-  ".config",
-  "pjs",
-  "setups"
-);
+const args = process.argv.slice(3);
+const alias = args[0];
+const projectName = args[1];
 
-await fs.ensureFile(path.join(userConfigFolder, "setups.yaml"), err => {
+if (!alias) {
+  console.log(`${chalk.red.bold("Error:")} You must provide a alias.`);
+}
+
+if (!projectName) {
+  console.log(`${chalk.red.bold("Error:")} You must provide a project name.`);
+}
+
+await fs.ensureFile(path.join(folders.config, "setups.yaml"), err => {
   if (err) {
     console.log(
       `${chalk.yellow.bold(
@@ -33,17 +44,19 @@ await fs.ensureFile(path.join(userConfigFolder, "setups.yaml"), err => {
   }
 });
 
-const buffer = await fs.readFile(path.join(userConfigFolder, "setups.yaml"));
-const setups = YAML.parse(buffer.toString());
+const buffer = await fs.readFile(path.join(folders.config, "setups.yaml"));
+const setups = await parseSetup(buffer);
 
-const args = process.argv.slice(3);
-const slug = args[0];
-const projectName = args[1];
+const setup = await setups.find(setup => setup.alias === alias);
+const steps = await parseSteps(setup);
 
-if (!slug) {
-  console.log(`${chalk.red.bold("Error:")} You must provide a slug.`);
-}
+const commands = await steps.map(step => {
+  return `# ${step.description.toUpperCase()}
+${step.command}\n`;
+});
 
-if (!projectName) {
-  console.log(`${chalk.red.bold("Error:")} You must provide a project name.`);
-}
+const script = `# THIS IS AUTO GENERATED SCRIPT BY PJS
+
+${commands.join("\n")}`;
+
+await fs.outputFile(path.join(folders.setups, `${alias}.sh`), script);
