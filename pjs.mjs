@@ -1,7 +1,6 @@
 #!/usr/bin/env zx
 
 import { folders } from "./lib/folders.mjs";
-import { generateScript } from "./lib/generateScript.mjs";
 import { parseSetup } from "./lib/parseSetup.mjs";
 import { parseSteps } from "./lib/parseSteps.mjs";
 
@@ -60,3 +59,6 @@ const script = `# THIS IS AUTO GENERATED SCRIPT BY PJS
 ${commands.join("\n")}`;
 
 await fs.outputFile(path.join(folders.setups, `${alias}.sh`), script);
+// =================================
+
+$`PROJECT_NAME=${projectName} bash ${path.join(folders.setups, `${alias}.sh`)}`;
