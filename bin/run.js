@@ -4,7 +4,12 @@ const path = require("path");
 const YAML = require("yaml");
 const shell = require("shelljs");
 
-function run(args) {
+function run(rawArgs) {
+  const args = {
+    alias: rawArgs.alias || rawArgs._[0],
+    projectName: rawArgs.projectName || rawArgs._[1],
+  };
+
   const setups = YAML.parse(
     fs.readFileSync(
       path.join(os.homedir(), ".config", "pjs", "setups.yaml"),
@@ -12,7 +17,9 @@ function run(args) {
     )
   );
 
-  const setupChoosen = setups.find(setup => setup.alias === args[0]);
+  const setupChoosen = setups.find(
+    setup => setup.alias === args["alias" || "a"]
+  );
 
   if (!setupChoosen) {
     console.log("Setup not found.");
@@ -31,11 +38,21 @@ function run(args) {
 ${command.join("\n")}`;
 
   fs.writeFileSync(
-    path.join(os.homedir(), ".config", "pjs", "setups", `${args[0]}.sh`),
+    path.join(
+      os.homedir(),
+      ".config",
+      "pjs",
+      "setups",
+      `${args["alias" || "a"]}.sh`
+    ),
     script
   );
 
-  shell.exec(`PROJECT_NAME=${args[1]} bash ~/.config/pjs/setups/${args[0]}.sh`);
+  shell.exec(
+    `PROJECT_NAME=${args["projectName" || "p"]} bash ~/.config/pjs/setups/${
+      args["alias" || "a"]
+    }.sh`
+  );
 }
 
 module.exports = {

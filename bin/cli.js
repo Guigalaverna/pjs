@@ -4,7 +4,7 @@ const utils = require("./run");
 
 // show usage message
 const usage = "\nUsage: pjs <alias> <project name>";
-const options = yargs
+yargs
   .usage(usage)
   .option("a", {
     alias: "alias",
@@ -21,4 +21,4 @@ const options = yargs
   .locale("en")
   .help(true).argv;
 
-utils.run(yargs.argv._);
+utils.run(yargs.argv);
