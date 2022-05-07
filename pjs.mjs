@@ -13,10 +13,8 @@ PJS - Project Setup Utility
 | This utility will help you create a setup of projects |
 | for you to work on.                                   |
 ---------------------------------------------------------
-| ${chalk.yellow("Usage:")}                                                |
-| pjs ${chalk.green.bold(
-  "<alias> <project-name>"
-)}                             |
+| Usage:                                                |
+| pjs <alias> <project name>                            |
 ---------------------------------------------------------
 `);
 
