@@ -1,5 +1,5 @@
 {
-  "name": "pjs",
+  "name": "pjss",
   "version": "1.0.0",
   "description": "> The script for lazy people 😴",
   "main": "index.js",
@@ -24,7 +24,10 @@
     "command line",
     "pjs"
   ],
-  "author": "guigalvernaa",
+  "author": {
+    "name": "Guilherme Galaverna",
+    "email": "guigalaverna@gmail.com"
+  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Guigalaverna/pjs/issues"
