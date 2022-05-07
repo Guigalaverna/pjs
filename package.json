@@ -1,10 +1,10 @@
 {
   "name": "pjss",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "The script for lazy people 😴",
   "main": "index.js",
   "bin": {
-    "pjs": "dist/bin/cli.js"
+    "pjs": "./dist/bin/cli.js"
   },
   "dependencies": {
     "cli-table": "^0.3.11",
