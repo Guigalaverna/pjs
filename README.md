@@ -21,6 +21,7 @@ All the templates are stored in a YAML file in `~/.config/pjs/setups.yaml`, and 
 ```yaml
 - name: <name of the setup> # Optional but recommended
   alias: <alias> # Required
+  type: <type of the setup> # Required, you can see the list of types in types.json
   steps:
     - description: <description of the step> # Required
       command: <command> # Required
@@ -36,23 +37,20 @@ You can use PJS by typing the following command:
 pjs <alias> <project name>
 ```
 
-### Arguments
+### Available arguments
 
 | Argument         | Description                                                                          |
 | ---------------- | ------------------------------------------------------------------------------------ |
 | `<alias>`        | The alias of the template you want to use, configured in `~/.config/pjs/setups.yaml` |
 | `<project name>` | The name of the project you want to create.                                          |
 
-### Observations
+| Option                | Description                                                                                    |
+| --------------------- | ---------------------------------------------------------------------------------------------- |
+| `--alias`, `-a`       | The same as `<alias>`                                                                          |
+| `--projectName`, `-p` | The same as `<project name>`                                                                   |
+| `--listSetups`, `-l`  | Show all available setups by type, if no type is specified or type is invalid, show all setups |
 
-- The script will be create a project in current directory, so, if you run the script in `~/`, the project will be created in `~/<project name>`.
-
-- If you prefer to use "options with arguments", you can use the following command:
-
-  | Option                |
-  | --------------------- |
-  | `--alias`, `-a`       |
-  | `--projectName`, `-p` |
+> The script will be create a project in current directory, so, if you run the script in `~/`, the project will be created in `~/<project name>`.
 
 ## License
 
