@@ -1,0 +1,17 @@
+{
+  "name": "project-setup",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Guigalaverna/pjs.git",
+  "author": "Guigalaverna <guigalaverna@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "cli"
+  ],
+  "bin": {
+    "pjs": "./bin/pjs.js"
+  },
+  "dependencies": {
+    "yargs": "^17.4.1"
+  }
+}
