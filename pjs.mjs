@@ -1,8 +1,8 @@
 #!/usr/bin/env zx
 
-import { folders } from "./lib/folders.mjs";
-import { parseSetup } from "./lib/parseSetup.mjs";
-import { parseSteps } from "./lib/parseSteps.mjs";
+import { folders } from "./src/lib/folders.mjs";
+import { parseSetup } from "./src/lib/parseSetup.mjs";
+import { parseSteps } from "./src/lib/parseSteps.mjs";
 
 // This is a simple utility to help you create setups of projects
 await $`clear`;
@@ -32,16 +32,7 @@ if (!projectName) {
   console.log(`${chalk.red.bold("Error:")} You must provide a project name.`);
 }
 
-await fs.ensureFile(path.join(folders.config, "setups.yaml"), err => {
-  if (err) {
-    console.log(
-      `${chalk.yellow.bold(
-        "Attention:"
-      )} Creating setups configuration file in ~/.config/pjs/setups.yaml`
-    );
-    console.log("           Please populate it with your setups.");
-  }
-});
+await fs.ensureFile(path.join(folders.config, "setups.yaml"));
 
 const buffer = await fs.readFile(path.join(folders.config, "setups.yaml"));
 const setups = await parseSetup(buffer);
@@ -59,6 +50,7 @@ const script = `# THIS IS AUTO GENERATED SCRIPT BY PJS
 ${commands.join("\n")}`;
 
 await fs.outputFile(path.join(folders.setups, `${alias}.sh`), script);
+
 // =================================
 
 $`PROJECT_NAME=${projectName} bash ${path.join(folders.setups, `${alias}.sh`)}`;
