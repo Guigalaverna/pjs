@@ -1,8 +1,5 @@
 "use strict";
 // #!/usr/bin/env node
-// import yargs from "yargs";
-// import types from "../types.json";
-// import Table from "cli-table";
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
