@@ -26,6 +26,7 @@ export class Orchestrator {
     const pathOfScript = path.join(
       os.homedir(),
       ".config",
+      "pjs",
       "setups",
       `${alias}.sh`
     );
