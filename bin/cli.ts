@@ -1,7 +1,4 @@
 // #!/usr/bin/env node
-// import yargs from "yargs";
-// import types from "../types.json";
-// import Table from "cli-table";
 
 import { Orchestrator } from "../src";
 import { ScriptAdapter } from "../src/adapters/ScriptAdapter";
