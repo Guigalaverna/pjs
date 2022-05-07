@@ -1,10 +1,10 @@
 {
   "name": "pjss",
   "version": "1.0.1",
-  "description": "> The script for lazy people 😴",
+  "description": "The script for lazy people 😴",
   "main": "index.js",
   "bin": {
-    "pjs": "bin/cli.js"
+    "pjs": "dist/bin/cli.js"
   },
   "dependencies": {
     "cli-table": "^0.3.11",
@@ -16,12 +16,14 @@
   "devDependencies": {
     "@types/cli-table": "^0.3.0",
     "@types/node": "^17.0.31",
+    "@types/shelljs": "^0.8.11",
     "@types/yargs": "^17.0.10",
     "typescript": "^4.6.4"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "cmd": "ts-node-dev --transpile-only --ignore-watch node_modules/ ./bin/cli.ts"
+    "dev": "ts-node-dev --transpile-only --ignore-watch node_modules/ ./bin/cli.ts",
+    "start": "node dist/bin/cli.js"
   },
   "repository": {
     "type": "git",
