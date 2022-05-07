@@ -33,53 +33,16 @@ yargs
   .locale("en")
   .help(true).argv;
 
-// const args = {
-//   alias: yargs.argv.alias || yargs.argv._[0],
-//   projectName: yargs.argv.projectName || yargs.argv._[1],
-//   listSetups: yargs.argv.listSetups,
-// };
+const setupAdapter = new SetupAdapter();
+const scriptAdapter = new ScriptAdapter();
 
-// if (args.listSetups) {
-//   if (args.listSetups === "all") {
-//     const setups = script.listSetups();
+const orchestrator = new Orchestrator(setupAdapter, scriptAdapter);
+const args = Object.entries({
+  ...(yargs.argv as Arguments),
+});
 
-//     var table = new Table({
-//       head: ["Name", "Alias", "Type"],
-//       colWidths: [40, 20, 20],
-//     });
-
-//     setups.forEach(setup => {
-//       table.push([
-//         setup.name,
-//         setup.alias,
-//         types.find(type => type.type === setup.type).name,
-//       ]);
-//     });
-
-//     console.log(table.toString());
-//     process.exit(0);
-//   } else {
-//     const setups = script.listSetups(args.listSetups);
-
-//     var table = new Table({
-//       head: ["Name", "Alias", "Type"],
-//       colWidths: [40, 20, 20],
-//     });
-
-//     setups.forEach(setup => {
-//       table.push([
-//         setup.name,
-//         setup.alias,
-//         types.find(type => type.type === setup.type).name,
-//       ]);
-//     });
-
-//     console.log(table.toString());
-//     process.exit(0);
-//   }
-// }
-// script.runSetup(args.alias, args.projectName);
-
-const orchestrator = new Orchestrator(new SetupAdapter(), new ScriptAdapter());
-
-orchestrator.execute(yargs.argv as Arguments);
+if (args.find(arg => arg[0] === "l" || arg[0] === "listSetups")) {
+  orchestrator.listSetups(args[1][1] as string);
+} else {
+  orchestrator.execute(yargs.argv as Arguments);
+}
