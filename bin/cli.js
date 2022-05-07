@@ -55,7 +55,7 @@ if (args.listSetups) {
     console.log(table.toString());
     process.exit(0);
   } else {
-    const setups = script.listSetups();
+    const setups = script.listSetups(args.listSetups);
 
     var table = new Table({
       head: ["Name", "Alias", "Type"],
