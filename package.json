@@ -1,6 +1,6 @@
 {
   "name": "pjss",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "The script for lazy people 😴",
   "main": "index.js",
   "bin": {
