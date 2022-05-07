@@ -25,13 +25,18 @@ export class SetupAdapter implements SetupAdapterType {
     );
     return;
   }
-  list(): Setup[] {
+  list(filterByType?: string): Setup[] {
     const rawFile = fs.readFileSync(
       path.join(os.homedir(), ".config", "pjs", "setups.yaml"),
       "utf8"
     );
-    const setups = YAML.parse(rawFile);
+    const setups: Setup[] = YAML.parse(rawFile);
 
-    return setups;
+    switch (!!filterByType) {
+      case true:
+        return setups.filter(setup => setup.type === filterByType);
+      case false:
+        return setups;
+    }
   }
 }

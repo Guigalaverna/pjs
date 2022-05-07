@@ -5,6 +5,9 @@ import yargs, { Arguments, Argv } from "yargs";
 import path from "path";
 import os from "os";
 import fs from "fs";
+import Table from "cli-table";
+
+import types from "../types.json";
 
 export class Orchestrator {
   constructor(
@@ -43,5 +46,23 @@ export class Orchestrator {
     scriptAdapter.execute(pathOfScript, projectName);
   }
 
-  async listSetups() {}
+  async listSetups(filterByType?: string) {
+    const { setupAdapter } = this;
+
+    const setups = setupAdapter.list(filterByType);
+
+    const table = new Table({
+      head: ["Name", "Alias", "Type"],
+    });
+
+    setups.forEach(setup => {
+      table.push([
+        setup.name,
+        setup.alias,
+        types.find(type => type.type === setup.type)?.name,
+      ]);
+    });
+
+    console.log(table.toString());
+  }
 }
