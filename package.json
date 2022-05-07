@@ -5,6 +5,12 @@
   "repository": "git@github.com:Guigalaverna/pjs.git",
   "author": "Guigalaverna <guigalaverna@gmail.com>",
   "license": "MIT",
+  "keywords": [
+    "cli",
+    "project-setup",
+    "pjs",
+    "script"
+  ],
   "bin": {
     "pjs": "./bin/cli.js"
   },
