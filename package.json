@@ -4,5 +4,8 @@
   "main": "index.js",
   "repository": "git@github.com:Guigalaverna/pjs.git",
   "author": "Guigalaverna <guigalaverna@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "bin": {
+    "pjs": "./bin/cli.js"
+  }
 }
