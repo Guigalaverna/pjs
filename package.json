@@ -9,6 +9,7 @@
     "pjs": "./bin/cli.js"
   },
   "dependencies": {
+    "yaml": "^2.0.1",
     "yargs": "^17.4.1"
   }
 }
