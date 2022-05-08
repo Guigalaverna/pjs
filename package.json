@@ -3,10 +3,16 @@
   "version": "1.0.5",
   "description": "The script for lazy people 😴",
   "main": "index.js",
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ],
   "bin": {
     "pjs": "./dist/bin/cli.js"
   },
   "dependencies": {
+    "chalk": "4.1.2",
     "cli-table": "^0.3.11",
     "shelljs": "^0.8.5",
     "ts-node-dev": "^1.1.8",
@@ -23,7 +29,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev --transpile-only --ignore-watch node_modules/ ./bin/cli.ts",
-    "start": "node dist/bin/cli.js"
+    "start": "node dist/bin/cli.js",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
