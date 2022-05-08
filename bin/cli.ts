@@ -1,4 +1,4 @@
-// #!/usr/bin/env node
+#!/usr/bin/env node
 
 import { Orchestrator } from "../src";
 import { ScriptAdapter } from "../src/adapters/ScriptAdapter";
