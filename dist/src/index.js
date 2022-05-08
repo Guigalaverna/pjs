@@ -18,6 +18,7 @@ const os_1 = __importDefault(require("os"));
 const fs_1 = __importDefault(require("fs"));
 const cli_table_1 = __importDefault(require("cli-table"));
 const types_json_1 = __importDefault(require("../types.json"));
+const chalk_1 = __importDefault(require("chalk"));
 class Orchestrator {
     constructor(setupAdapter, scriptAdapter) {
         this.setupAdapter = setupAdapter;
@@ -35,7 +36,8 @@ class Orchestrator {
             const pathOfScript = path_1.default.join(os_1.default.homedir(), ".config", "pjs", "setups", `${alias}.sh`);
             const setupScriptExists = fs_1.default.existsSync(pathOfScript);
             if (!setup) {
-                throw new Error(`Setup with alias ${alias} not found.`);
+                console.log(`${chalk_1.default.red.bold("Error:")} Setup with alias "${alias}" not found.`);
+                process.exit(1);
             }
             if (!setupScriptExists) {
                 setupAdapter.create(setup);
