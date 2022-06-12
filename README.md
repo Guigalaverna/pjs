@@ -29,6 +29,13 @@ All the templates are stored in a YAML file in `~/.config/pjs/setups.yaml`, and 
       command: <command> # Required
 ```
 
+### Examples
+If you want see how to write your setups, you can check examples in **examples folder**
+
+Note: All examples must be placed in the setups file: `~/.config/pjs/setups.yaml`
+
+[Open folder](./examples/)
+
 ## How to use PJS?
 
 You can use PJS by typing the following command:

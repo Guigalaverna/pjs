@@ -1,0 +1,6 @@
+name: Create React App with TypeScript
+alias: crat
+type: node
+steps:
+  - description: Create React App with TypeScript template
+    command: npx create-react-app --template typescript $PROJECT_NAME

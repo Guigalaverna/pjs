@@ -1,0 +1,12 @@
+name: Next.js with Chakra UI
+alias: nct
+type: node
+steps:
+  - description: Create Next.js App
+    command: npx create-next-app $PROJECT_NAME
+  - description: Change directory
+    command: cd $PROJECT_NAME
+  - description: Install Chakra UI
+    command: npm i @chakra-ui/react @emotion/react@^11 @emotion/styled@^11 framer-motion@^6
+  - description: Change folder structure
+    command: mkdir src && mv pages/ styles/ src/

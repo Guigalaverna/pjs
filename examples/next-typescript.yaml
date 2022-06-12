@@ -1,0 +1,12 @@
+name: Next.js with TypeScript
+alias: nts
+type: node
+steps:
+  - description: Create Next.js App
+    command: npx create-next-app $PROJECT_NAME
+  - description: Change directory
+    command: cd $PROJECT_NAME
+  - description: Install TypeScript
+    command: npm install --save-dev typescript @types/react @types/node
+  - description: Rename files
+    command: mv pages/_app.js pages/_app.tsx && mv pages/index.js pages/index.tsx
