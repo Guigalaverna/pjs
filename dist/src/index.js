@@ -33,11 +33,11 @@ class Orchestrator {
                 const alias = (args.alias || args._[0]);
                 const projectName = (args.projectName || args._[1]);
                 if (!alias) {
-                    (0, log_1.log)("ERR", "No alias provided.");
+                    log_1.log("ERR", "No alias provided.");
                     process.exit(0);
                 }
                 if (!projectName) {
-                    (0, log_1.log)("ERR", "No project name provided.");
+                    log_1.log("ERR", "No project name provided.");
                     process.exit(0);
                 }
                 const setups = setupAdapter.list();
@@ -45,7 +45,7 @@ class Orchestrator {
                 const pathOfScript = path_1.default.join(os_1.default.homedir(), ".config", "pjs", "setups", `${alias}.sh`);
                 const setupScriptExists = fs_1.default.existsSync(pathOfScript);
                 if (!setup) {
-                    (0, log_1.log)("ERR", `Setup with alias "${alias}" not found.`);
+                    log_1.log("ERR", `Setup with alias "${alias}" not found.`);
                     process.exit(0);
                 }
                 if (!setupScriptExists) {
@@ -55,7 +55,32 @@ class Orchestrator {
             }
             catch (err) {
                 // @ts-ignore
-                (0, log_1.log)("ERR", err.message);
+                log_1.log("ERR", err.message);
+            }
+            finally {
+                process.exit(0);
+            }
+        });
+    }
+    getDirectory() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                switch (process.platform) {
+                    case "win32":
+                        const directory = `${os_1.default.homedir()}\\.config\\pjs`.replace(/\\/g, "/");
+                        log_1.log("INFO", `Your directory is: ${directory}`);
+                        break;
+                    case "linux":
+                    case "darwin":
+                        log_1.log("INFO", `Your directory is: ${os_1.default.homedir()}/.config/pjs/setups.yaml`);
+                        break;
+                    default:
+                        log_1.log("ERR", "Your platform is not supported.");
+                }
+            }
+            catch (err) {
+                // @ts-ignore
+                log_1.log("ERR", err.message);
             }
             finally {
                 process.exit(0);
@@ -67,6 +92,7 @@ class Orchestrator {
             try {
                 const { setupAdapter } = this;
                 const setups = setupAdapter.list(filterByType);
+                console.log("test", setups);
                 const table = new cli_table_1.default({
                     head: ["Name", "Alias", "Type"],
                 });
@@ -82,7 +108,7 @@ class Orchestrator {
             }
             catch (err) {
                 // @ts-ignore
-                (0, log_1.log)("ERR", err.message);
+                log_1.log("ERR", err.message);
             }
             finally {
                 process.exit(0);

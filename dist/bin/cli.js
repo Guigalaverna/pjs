@@ -30,6 +30,12 @@ yargs_1.default
     type: "string",
     demandOption: false,
 })
+    .option("dir", {
+    alias: "directory",
+    describe: "Show the directory of the configured setups.",
+    type: "string",
+    demandOption: false,
+})
     .locale("en")
     .help(true).argv;
 const setupAdapter = new SetupAdapter_1.SetupAdapter();
@@ -39,6 +45,7 @@ const args = Object.entries(Object.assign({}, yargs_1.default.argv));
 if (args.find(arg => arg[0] === "l" || arg[0] === "listSetups")) {
     orchestrator.listSetups(args[1][1]);
 }
-else {
-    orchestrator.execute(yargs_1.default.argv);
+if (args.find(arg => arg[0] === "dir" || arg[0] === "directory")) {
+    orchestrator.getDirectory();
 }
+orchestrator.execute(yargs_1.default.argv);
