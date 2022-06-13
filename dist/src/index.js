@@ -33,11 +33,11 @@ class Orchestrator {
                 const alias = (args.alias || args._[0]);
                 const projectName = (args.projectName || args._[1]);
                 if (!alias) {
-                    log_1.log("ERR", "No alias provided.");
+                    log_1.log(log_1.LogCategory.ERROR, "No alias provided.");
                     process.exit(0);
                 }
                 if (!projectName) {
-                    log_1.log("ERR", "No project name provided.");
+                    log_1.log(log_1.LogCategory.ERROR, "No project name provided.");
                     process.exit(0);
                 }
                 const setups = setupAdapter.list();
@@ -54,12 +54,12 @@ class Orchestrator {
                 }
                 const pathOfScript = path_1.default.join(os_1.default.homedir(), ".config", "pjs", "setups", `${alias}.${extension}`);
                 if (!setup) {
-                    log_1.log("ERR", `Setup with alias "${alias}" not found.`);
+                    log_1.log(log_1.LogCategory.ERROR, `Setup with alias "${alias}" not found.`);
                     process.exit(0);
                 }
                 const setupScriptExists = fs_1.default.existsSync(pathOfScript);
-                log_1.log("DEBUG", `setupScriptExists: ${setupScriptExists}`);
-                log_1.log("DEBUG", `pathOfScript: ${pathOfScript}`);
+                log_1.log(log_1.LogCategory.DEBUG, `setupScriptExists: ${setupScriptExists}`);
+                log_1.log(log_1.LogCategory.DEBUG, `pathOfScript: ${pathOfScript}`);
                 if (!setupScriptExists) {
                     setupAdapter.create(setup);
                 }
@@ -67,7 +67,7 @@ class Orchestrator {
             }
             catch (err) {
                 // @ts-ignore
-                log_1.log("ERR", err.message);
+                log_1.log(log_1.LogCategory.ERROR, err.message);
             }
             finally {
                 process.exit(0);
@@ -94,7 +94,7 @@ class Orchestrator {
             }
             catch (err) {
                 // @ts-ignore
-                log_1.log("ERR", err.message);
+                log_1.log(log_1.LogCategory.ERROR, err.message);
             }
             finally {
                 process.exit(0);

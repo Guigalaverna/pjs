@@ -63,7 +63,7 @@ class SetupAdapter {
                 default:
                     break;
             }
-            log_1.log("DEBUG", JSON.stringify(params));
+            log_1.log(log_1.LogCategory.DEBUG, JSON.stringify(params));
             const script = `
       ${header}
       # THIS IS A AUTO-GENERATED FILE BY PJS
@@ -95,7 +95,7 @@ class SetupAdapter {
         try {
             const rawFile = fs_1.default.readFileSync(path_1.default.join(os_1.default.homedir(), ".config", "pjs", "setups.yaml"), "utf8");
             const setups = YAML.parse(rawFile);
-            log_1.log("DEBUG", `setups: ${JSON.stringify(setups)}`);
+            log_1.log(log_1.LogCategory.DEBUG, `setups: ${JSON.stringify(setups)}`);
             switch (!!filterByType) {
                 case true:
                     return setups.filter(setup => setup.type === filterByType);
@@ -105,7 +105,7 @@ class SetupAdapter {
         }
         catch (err) {
             // @ts-ignore
-            log_1.log("ERR", err.message);
+            log_1.log(log_1.LogCategory.ERROR, err.message);
         }
     }
 }

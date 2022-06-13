@@ -62,8 +62,8 @@ export class Orchestrator {
       }
       
       const setupScriptExists = fs.existsSync(pathOfScript);
-      log("DEBUG", `setupScriptExists: ${setupScriptExists}`);
-      log("DEBUG", `pathOfScript: ${pathOfScript}`);
+      log(LogCategory.DEBUG, `setupScriptExists: ${setupScriptExists}`);
+      log(LogCategory.DEBUG, `pathOfScript: ${pathOfScript}`);
       if (!setupScriptExists) {
         setupAdapter.create(setup);
       }

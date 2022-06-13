@@ -47,7 +47,7 @@ export class SetupAdapter implements SetupAdapterType {
           break;
       }
 
-      log("DEBUG", JSON.stringify(params));
+      log(LogCategory.DEBUG, JSON.stringify(params));
 
       const script = `
       ${header}
@@ -90,7 +90,7 @@ export class SetupAdapter implements SetupAdapterType {
         "utf8"
       );
       const setups: Setup[] = YAML.parse(rawFile);
-      log("DEBUG", `setups: ${JSON.stringify(setups)}`);
+      log(LogCategory.DEBUG, `setups: ${JSON.stringify(setups)}`);
       switch (!!filterByType) {
         case true:
           return setups.filter(setup => setup.type === filterByType);
