@@ -8,6 +8,7 @@ const src_1 = require("../src");
 const ScriptAdapter_1 = require("../src/adapters/ScriptAdapter");
 const SetupAdapter_1 = require("../src/adapters/SetupAdapter");
 const yargs_1 = __importDefault(require("yargs"));
+const log_1 = require("../src/lib/log");
 // show usage message
 const usage = "\nUsage: pjs <alias> <project name>";
 yargs_1.default
@@ -42,6 +43,10 @@ const setupAdapter = new SetupAdapter_1.SetupAdapter();
 const scriptAdapter = new ScriptAdapter_1.ScriptAdapter();
 const orchestrator = new src_1.Orchestrator(setupAdapter, scriptAdapter);
 const args = Object.entries(Object.assign({}, yargs_1.default.argv));
+if (Array.isArray(args[0][1]) && args[0][1].length === 0) {
+    log_1.log(log_1.LogCategory.INFO, "No arguments provided. type 'pjs --help' for more info.");
+    process.exit(0);
+}
 if (args.find(arg => arg[0] === "l" || arg[0] === "listSetups")) {
     orchestrator.listSetups(args[1][1]);
 }

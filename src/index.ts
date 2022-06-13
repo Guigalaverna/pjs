@@ -9,6 +9,7 @@ import Table from "cli-table";
 
 import types from "../types.json";
 import { log, LogCategory } from "./lib/log";
+import { Setup } from "../@types/Setup";
 
 export class Orchestrator {
   constructor(
@@ -36,22 +37,33 @@ export class Orchestrator {
         process.exit(0);
       }
 
-      const setups = setupAdapter.list();
-      const setup = setups.find(setup => setup.alias === alias);
+      const setups: Setup[] = setupAdapter.list();
+      const setup = setups.find((setup) => setup.alias === alias);
+      let extension;
+      switch (process.platform) {
+        case "win32":
+          extension = "ps1";
+          break;
+        case "darwin":
+        case "linux":
+        default:
+          extension = "sh";
+      }
       const pathOfScript = path.join(
         os.homedir(),
         ".config",
         "pjs",
         "setups",
-        `${alias}.sh`
+        `${alias}.${extension}`
       );
-      const setupScriptExists = fs.existsSync(pathOfScript);
-
       if (!setup) {
         log(LogCategory.ERROR, `Setup with alias "${alias}" not found.`);
         process.exit(0);
       }
-
+      
+      const setupScriptExists = fs.existsSync(pathOfScript);
+      log(LogCategory.DEBUG, `setupScriptExists: ${setupScriptExists}`);
+      log(LogCategory.DEBUG, `pathOfScript: ${pathOfScript}`);
       if (!setupScriptExists) {
         setupAdapter.create(setup);
       }
@@ -70,18 +82,18 @@ export class Orchestrator {
       switch (process.platform) {
         case "win32": 
           const directory = `${os.homedir()}\\.config\\pjs`.replace(/\\/g, "/");
-          log("INFO", `Your directory is: ${directory}`);
+          log(LogCategory.INFO, `Your directory is: ${directory}`);
           break;
         case "linux":
         case "darwin":
-          log("INFO", `Your directory is: ${os.homedir()}/.config/pjs/setups.yaml`);
+          log(LogCategory.INFO, `Your directory is: ${os.homedir()}/.config/pjs/setups.yaml`);
           break;
         default:
-          log("ERR", "Your platform is not supported.");
+          log(LogCategory.ERROR, "Your platform is not supported.");
       }          
     } catch (err) {
       // @ts-ignore
-      log("ERR", err.message);
+      log(LogCategory.ERROR, err.message);
     } finally {
       process.exit(0);
     }
@@ -90,7 +102,8 @@ export class Orchestrator {
   public async listSetups(filterByType?: string) {
     try {
       const { setupAdapter } = this;
-      const setups = setupAdapter.list(filterByType);
+
+      const setups: Setup[] = setupAdapter.list(filterByType);
 
       const table = new Table({
         head: ["Name", "Alias", "Type"],
