@@ -1,22 +1,29 @@
 import chalk from "chalk";
 
+export enum LogCategory {
+  INFO = "INFO",
+  WARNING = "WARN",
+  ERROR = "ERR",
+  DEBUG = "DEBUG",
+}
+
 export function log(
-  category: "ERR" | "WARN" | "INFO" | "DEBUG",
+  category: LogCategory,
   message: string
 ) {
   const log = console.log;
 
   switch (category) {
-    case "ERR":
+    case LogCategory.ERROR:
       log(`${chalk.red.bold("[Error]")} ${message}`);
       break;
-    case "WARN":
+    case LogCategory.WARNING:
       log(`${chalk.yellow.bold("[Warning]")} ${message}`);
       break;
-    case "INFO":
+    case LogCategory.INFO:
       log(`${chalk.green.bold("[Info]")} ${message}`);
       break;
-    case "DEBUG":
+    case LogCategory.DEBUG:
       log(`${chalk.blue.bold("[Debug]")} ${message}`);
       break;
     default:
