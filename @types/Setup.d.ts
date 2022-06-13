@@ -1,11 +1,13 @@
 export interface Step {
-  description: string;
+  description?: string;
   command: string;
 }
 
 export interface Setup {
-  name: string;
+  name?: string;
   alias: string;
-  type: string;
+  type?: string;
+  author?: string;
+  version?: string;
   steps: Step[];
 }

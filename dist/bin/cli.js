@@ -43,14 +43,16 @@ const setupAdapter = new SetupAdapter_1.SetupAdapter();
 const scriptAdapter = new ScriptAdapter_1.ScriptAdapter();
 const orchestrator = new src_1.Orchestrator(setupAdapter, scriptAdapter);
 const args = Object.entries(Object.assign({}, yargs_1.default.argv));
-if (Array.isArray(args[0][1]) && args[0][1].length === 0) {
-    log_1.log(log_1.LogCategory.INFO, "No arguments provided. type 'pjs --help' for more info.");
-    process.exit(0);
-}
+log_1.log(log_1.LogCategory.DEBUG, "PJS is running...");
+log_1.log(log_1.LogCategory.DEBUG, JSON.stringify(args));
 if (args.find(arg => arg[0] === "l" || arg[0] === "listSetups")) {
     orchestrator.listSetups(args[1][1]);
 }
 if (args.find(arg => arg[0] === "dir" || arg[0] === "directory")) {
     orchestrator.getDirectory();
+}
+if (Array.isArray(args[0][1]) && args[0][1].length === 0) {
+    log_1.log(log_1.LogCategory.INFO, "No arguments provided. type 'pjs --help' for more info.");
+    process.exit(0);
 }
 orchestrator.execute(yargs_1.default.argv);
