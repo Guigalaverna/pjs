@@ -8,7 +8,7 @@ import fs from "fs";
 import Table from "cli-table";
 
 import types from "../types.json";
-import { log } from "./lib/log";
+import { log, LogCategory } from "./lib/log";
 import { Setup } from "../@types/Setup";
 
 export class Orchestrator {
@@ -28,12 +28,12 @@ export class Orchestrator {
       const projectName = (args.projectName || args._[1]) as string;
 
       if (!alias) {
-        log("ERR", "No alias provided.");
+        log(LogCategory.ERROR, "No alias provided.");
         process.exit(0);
       }
 
       if (!projectName) {
-        log("ERR", "No project name provided.");
+        log(LogCategory.ERROR, "No project name provided.");
         process.exit(0);
       }
 
@@ -57,7 +57,7 @@ export class Orchestrator {
         `${alias}.${extension}`
       );
       if (!setup) {
-        log("ERR", `Setup with alias "${alias}" not found.`);
+        log(LogCategory.ERROR, `Setup with alias "${alias}" not found.`);
         process.exit(0);
       }
       
@@ -71,7 +71,7 @@ export class Orchestrator {
       scriptAdapter.execute(pathOfScript, projectName);
     } catch (err) {
       // @ts-ignore
-      log("ERR", err.message);
+      log(LogCategory.ERROR, err.message);
     } finally {
       process.exit(0);
     }
@@ -98,7 +98,7 @@ export class Orchestrator {
       console.log(table.toString());
     } catch (err) {
       // @ts-ignore
-      log("ERR", err.message);
+      log(LogCategory.ERROR, err.message);
     } finally {
       process.exit(0);
     }

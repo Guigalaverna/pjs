@@ -6,7 +6,7 @@ import * as YAML from "yaml";
 import fs from "fs";
 import path from "path";
 import os from "os";
-import { log } from "../../src/lib/log";
+import { log, LogCategory } from "../../src/lib/log";
 
 export class SetupAdapter implements SetupAdapterType {
   create(setup: Setup): void {
@@ -99,7 +99,7 @@ export class SetupAdapter implements SetupAdapterType {
       }
     } catch (err) {
       // @ts-ignore
-      log("ERR", err.message);
+      log(LogCategory.ERROR, err.message);
     }
   }
 }

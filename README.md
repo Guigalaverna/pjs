@@ -36,6 +36,19 @@ Note: All examples must be placed in the setups file: `~/.config/pjs/setups.yaml
 
 [Open folder](./examples/)
 
+## How to install PJS?
+You can install PJS by typing the following command:
+
+```bash
+npm install pjss
+```
+
+if you want to use it in a global way.
+
+```bash
+npm install -g pjss
+```
+
 ## How to use PJS?
 
 You can use PJS by typing the following command:
