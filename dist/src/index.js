@@ -105,14 +105,15 @@ class Orchestrator {
                 const { setupAdapter } = this;
                 const setups = setupAdapter.list(filterByType);
                 const table = new cli_table_1.default({
-                    head: ["Name", "Alias", "Type"],
+                    head: ["Name", "Alias", "Type", "Author"],
                 });
                 setups.forEach(setup => {
                     var _a;
                     table.push([
                         setup.name,
                         setup.alias,
-                        (_a = types_json_1.default.find(type => type.type === setup.type)) === null || _a === void 0 ? void 0 : _a.name,
+                        ((_a = types_json_1.default.find(type => type.type === setup.type)) === null || _a === void 0 ? void 0 : _a.name) || "not listed",
+                        setup.author
                     ]);
                 });
                 console.log(table.toString());
@@ -120,9 +121,6 @@ class Orchestrator {
             catch (err) {
                 // @ts-ignore
                 log_1.log(log_1.LogCategory.ERROR, err.message);
-            }
-            finally {
-                process.exit(0);
             }
         });
     }

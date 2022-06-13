@@ -45,10 +45,8 @@ const args = Object.entries({
   ...(yargs.argv as Arguments),
 });
 
-if (Array.isArray(args[0][1]) && args[0][1].length === 0) {
-  log(LogCategory.INFO, "No arguments provided. type 'pjs --help' for more info.");
-  process.exit(0);
-}
+log(LogCategory.DEBUG, "PJS is running...");
+log(LogCategory.DEBUG, JSON.stringify(args));
 
 if (args.find(arg => arg[0] === "l" || arg[0] === "listSetups")) {
   orchestrator.listSetups(args[1][1] as string);
@@ -56,6 +54,11 @@ if (args.find(arg => arg[0] === "l" || arg[0] === "listSetups")) {
 
 if (args.find(arg => arg[0] === "dir" || arg[0] === "directory")) {
   orchestrator.getDirectory();
+}
+
+if (Array.isArray(args[0][1]) && args[0][1].length === 0) {
+  log(LogCategory.INFO, "No arguments provided. type 'pjs --help' for more info.");
+  process.exit(0);
 }
 
 orchestrator.execute(yargs.argv as Arguments);

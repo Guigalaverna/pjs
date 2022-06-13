@@ -106,14 +106,15 @@ export class Orchestrator {
       const setups: Setup[] = setupAdapter.list(filterByType);
 
       const table = new Table({
-        head: ["Name", "Alias", "Type"],
+        head: ["Name", "Alias", "Type", "Author"],
       });
 
       setups.forEach(setup => {
         table.push([
           setup.name,
           setup.alias,
-          types.find(type => type.type === setup.type)?.name,
+          types.find(type => type.type === setup.type)?.name || "not listed",
+          setup.author
         ]);
       });
 
@@ -121,8 +122,6 @@ export class Orchestrator {
     } catch (err) {
       // @ts-ignore
       log(LogCategory.ERROR, err.message);
-    } finally {
-      process.exit(0);
     }
   }
 }
