@@ -28,6 +28,12 @@ yargs
     type: "string",
     demandOption: false,
   })
+  .option("dir", {
+    alias: "directory",
+    describe: "Show the directory of the configured setups.",
+    type: "string",
+    demandOption: false,
+  })
   .locale("en")
   .help(true).argv;
 
@@ -46,6 +52,10 @@ if (Array.isArray(args[0][1]) && args[0][1].length === 0) {
 
 if (args.find(arg => arg[0] === "l" || arg[0] === "listSetups")) {
   orchestrator.listSetups(args[1][1] as string);
-} else {
-  orchestrator.execute(yargs.argv as Arguments);
 }
+
+if (args.find(arg => arg[0] === "dir" || arg[0] === "directory")) {
+  orchestrator.getDirectory();
+}
+
+orchestrator.execute(yargs.argv as Arguments);

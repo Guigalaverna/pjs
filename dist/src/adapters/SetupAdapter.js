@@ -85,7 +85,7 @@ class SetupAdapter {
         }
         catch (err) {
             // @ts-ignore
-            log_1.log("ERR", err.message);
+            log_1.log(log_1.LogCategory.ERROR, err.message);
         }
         finally {
             process.exit(0);

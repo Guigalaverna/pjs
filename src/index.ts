@@ -20,7 +20,7 @@ export class Orchestrator {
     this.scriptAdapter = scriptAdapter;
   }
 
-  async execute(args: yargs.Arguments) {
+  public async execute(args: yargs.Arguments) {
     try {
       const { setupAdapter, scriptAdapter } = this;
 
@@ -77,7 +77,29 @@ export class Orchestrator {
     }
   }
 
-  async listSetups(filterByType?: string) {
+  public async getDirectory() {
+    try {
+      switch (process.platform) {
+        case "win32": 
+          const directory = `${os.homedir()}\\.config\\pjs`.replace(/\\/g, "/");
+          log(LogCategory.INFO, `Your directory is: ${directory}`);
+          break;
+        case "linux":
+        case "darwin":
+          log(LogCategory.INFO, `Your directory is: ${os.homedir()}/.config/pjs/setups.yaml`);
+          break;
+        default:
+          log(LogCategory.ERROR, "Your platform is not supported.");
+      }          
+    } catch (err) {
+      // @ts-ignore
+      log(LogCategory.ERROR, err.message);
+    } finally {
+      process.exit(0);
+    }
+  }
+
+  public async listSetups(filterByType?: string) {
     try {
       const { setupAdapter } = this;
 

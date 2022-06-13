@@ -78,7 +78,7 @@ export class SetupAdapter implements SetupAdapterType {
       return;
     } catch (err) {
       // @ts-ignore
-      log("ERR", err.message);
+      log(LogCategory.ERROR, err.message);
     } finally {
       process.exit(0);
     }

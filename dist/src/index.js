@@ -74,6 +74,31 @@ class Orchestrator {
             }
         });
     }
+    getDirectory() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                switch (process.platform) {
+                    case "win32":
+                        const directory = `${os_1.default.homedir()}\\.config\\pjs`.replace(/\\/g, "/");
+                        log_1.log(log_1.LogCategory.INFO, `Your directory is: ${directory}`);
+                        break;
+                    case "linux":
+                    case "darwin":
+                        log_1.log(log_1.LogCategory.INFO, `Your directory is: ${os_1.default.homedir()}/.config/pjs/setups.yaml`);
+                        break;
+                    default:
+                        log_1.log(log_1.LogCategory.ERROR, "Your platform is not supported.");
+                }
+            }
+            catch (err) {
+                // @ts-ignore
+                log_1.log(log_1.LogCategory.ERROR, err.message);
+            }
+            finally {
+                process.exit(0);
+            }
+        });
+    }
     listSetups(filterByType) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
