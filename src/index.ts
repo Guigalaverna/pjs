@@ -9,6 +9,7 @@ import Table from "cli-table";
 
 import types from "../types.json";
 import { log } from "./lib/log";
+import { Setup } from "../@types/Setup";
 
 export class Orchestrator {
   constructor(
@@ -36,22 +37,33 @@ export class Orchestrator {
         process.exit(0);
       }
 
-      const setups = setupAdapter.list();
-      const setup = setups.find(setup => setup.alias === alias);
+      const setups: Setup[] = setupAdapter.list();
+      const setup = setups.find((setup) => setup.alias === alias);
+      let extension;
+      switch (process.platform) {
+        case "win32":
+          extension = "ps1";
+          break;
+        case "darwin":
+        case "linux":
+        default:
+          extension = "sh";
+      }
       const pathOfScript = path.join(
         os.homedir(),
         ".config",
         "pjs",
         "setups",
-        `${alias}.sh`
+        `${alias}.${extension}`
       );
-      const setupScriptExists = fs.existsSync(pathOfScript);
-
       if (!setup) {
         log("ERR", `Setup with alias "${alias}" not found.`);
         process.exit(0);
       }
-
+      
+      const setupScriptExists = fs.existsSync(pathOfScript);
+      log("DEBUG", `setupScriptExists: ${setupScriptExists}`);
+      log("DEBUG", `pathOfScript: ${pathOfScript}`);
       if (!setupScriptExists) {
         setupAdapter.create(setup);
       }
@@ -69,7 +81,7 @@ export class Orchestrator {
     try {
       const { setupAdapter } = this;
 
-      const setups = setupAdapter.list(filterByType);
+      const setups: Setup[] = setupAdapter.list(filterByType);
 
       const table = new Table({
         head: ["Name", "Alias", "Type"],
