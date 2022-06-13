@@ -34,7 +34,7 @@ yargs
     demandOption: false,
   })
   .locale("en")
-  .help().argv;
+  .help(true).argv;
 
 const setupAdapter = new SetupAdapter();
 const scriptAdapter = new ScriptAdapter();
