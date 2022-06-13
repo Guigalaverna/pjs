@@ -8,7 +8,8 @@ import fs from "fs";
 import Table from "cli-table";
 
 import types from "../types.json";
-import { log } from "./lib/log";
+import { log, LogCategory } from "./lib/log";
+import { Setup } from "../@types/Setup";
 
 export class Orchestrator {
   constructor(
@@ -19,7 +20,7 @@ export class Orchestrator {
     this.scriptAdapter = scriptAdapter;
   }
 
-  async execute(args: yargs.Arguments) {
+  public async execute(args: yargs.Arguments) {
     try {
       const { setupAdapter, scriptAdapter } = this;
 
@@ -27,31 +28,42 @@ export class Orchestrator {
       const projectName = (args.projectName || args._[1]) as string;
 
       if (!alias) {
-        log("ERR", "No alias provided.");
+        log(LogCategory.ERROR, "No alias provided.");
         process.exit(0);
       }
 
       if (!projectName) {
-        log("ERR", "No project name provided.");
+        log(LogCategory.ERROR, "No project name provided.");
         process.exit(0);
       }
 
-      const setups = setupAdapter.list();
-      const setup = setups.find(setup => setup.alias === alias);
+      const setups: Setup[] = setupAdapter.list();
+      const setup = setups.find((setup) => setup.alias === alias);
+      let extension;
+      switch (process.platform) {
+        case "win32":
+          extension = "ps1";
+          break;
+        case "darwin":
+        case "linux":
+        default:
+          extension = "sh";
+      }
       const pathOfScript = path.join(
         os.homedir(),
         ".config",
         "pjs",
         "setups",
-        `${alias}.sh`
+        `${alias}.${extension}`
       );
-      const setupScriptExists = fs.existsSync(pathOfScript);
-
       if (!setup) {
-        log("ERR", `Setup with alias "${alias}" not found.`);
+        log(LogCategory.ERROR, `Setup with alias "${alias}" not found.`);
         process.exit(0);
       }
-
+      
+      const setupScriptExists = fs.existsSync(pathOfScript);
+      log(LogCategory.DEBUG, `setupScriptExists: ${setupScriptExists}`);
+      log(LogCategory.DEBUG, `pathOfScript: ${pathOfScript}`);
       if (!setupScriptExists) {
         setupAdapter.create(setup);
       }
@@ -59,17 +71,39 @@ export class Orchestrator {
       scriptAdapter.execute(pathOfScript, projectName);
     } catch (err) {
       // @ts-ignore
-      log("ERR", err.message);
+      log(LogCategory.ERROR, err.message);
     } finally {
       process.exit(0);
     }
   }
 
-  async listSetups(filterByType?: string) {
+  public async getDirectory() {
+    try {
+      switch (process.platform) {
+        case "win32": 
+          const directory = `${os.homedir()}\\.config\\pjs`.replace(/\\/g, "/");
+          log(LogCategory.INFO, `Your directory is: ${directory}`);
+          break;
+        case "linux":
+        case "darwin":
+          log(LogCategory.INFO, `Your directory is: ${os.homedir()}/.config/pjs/setups.yaml`);
+          break;
+        default:
+          log(LogCategory.ERROR, "Your platform is not supported.");
+      }          
+    } catch (err) {
+      // @ts-ignore
+      log(LogCategory.ERROR, err.message);
+    } finally {
+      process.exit(0);
+    }
+  }
+
+  public async listSetups(filterByType?: string) {
     try {
       const { setupAdapter } = this;
 
-      const setups = setupAdapter.list(filterByType);
+      const setups: Setup[] = setupAdapter.list(filterByType);
 
       const table = new Table({
         head: ["Name", "Alias", "Type"],
@@ -86,7 +120,7 @@ export class Orchestrator {
       console.log(table.toString());
     } catch (err) {
       // @ts-ignore
-      log("ERR", err.message);
+      log(LogCategory.ERROR, err.message);
     } finally {
       process.exit(0);
     }
